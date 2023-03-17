@@ -2,17 +2,39 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomeController
+class HomeController extends AbstractController
 {
     #[Route('/')]
-    public function carregarHome(): Response
+    public function index(): Response
     {
-        return new Response(
-            '<html><body>Primeira página em symfony!</body></html>'
-        );
+        $title = "Blog com Symfony";
+        $posts = [
+            [
+                'title' => 'Exemplo de titulo do post 1',
+                'body' => 'Texto do post'
+            ],
+            [
+                'title' => 'Exemplo de titulo do post 2',
+                'body' => 'Texto do post'
+            ],
+            [
+                'title' => 'Exemplo de titulo do post 3',
+                'body' => 'Texto do post'
+            ],
+            [
+                'title' => 'Exemplo de titulo do post 4',
+                'body' => 'Texto do post'
+            ],
+        ];
+
+        return $this->render('home/index.html.twig', [
+            'title' => $title,
+            'posts' => $posts
+        ]);
     }
 
     #[Route('/pesquisar/{slug}')]
