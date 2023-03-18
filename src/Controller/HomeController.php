@@ -13,12 +13,12 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $tracks = [
-            ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
-            ['song' => 'Waterfalls', 'artist' => 'TLC'],
-            ['song' => 'Creep', 'artist' => 'Radiohead'],
-            ['song' => 'Kiss from a Rose', 'artist' => 'Seal'],
-            ['song' => 'On Bended Knee', 'artist' => 'Boyz II Men'],
-            ['song' => 'Fantasy', 'artist' => 'Mariah Carey'],
+            ['id' => 1, 'song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
+            ['id' => 2, 'song' => 'Waterfalls', 'artist' => 'TLC'],
+            ['id' => 3, 'song' => 'Creep', 'artist' => 'Radiohead'],
+            ['id' => 4, 'song' => 'Kiss from a Rose', 'artist' => 'Seal'],
+            ['id' => 5, 'song' => 'On Bended Knee', 'artist' => 'Boyz II Men'],
+            ['id' => 6, 'song' => 'Fantasy', 'artist' => 'Mariah Carey'],
         ];
 
         return $this->render('home/index.html.twig', [
