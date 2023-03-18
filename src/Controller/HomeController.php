@@ -5,41 +5,35 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use function Symfony\Component\String\u;
 
 class HomeController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'app_homepage')]
     public function index(): Response
     {
-        $title = "Blog com Symfony";
-        $posts = [
-            [
-                'title' => 'Exemplo de titulo do post 1',
-                'body' => 'Texto do post'
-            ],
-            [
-                'title' => 'Exemplo de titulo do post 2',
-                'body' => 'Texto do post'
-            ],
-            [
-                'title' => 'Exemplo de titulo do post 3',
-                'body' => 'Texto do post'
-            ],
-            [
-                'title' => 'Exemplo de titulo do post 4',
-                'body' => 'Texto do post'
-            ],
+        $tracks = [
+            ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
+            ['song' => 'Waterfalls', 'artist' => 'TLC'],
+            ['song' => 'Creep', 'artist' => 'Radiohead'],
+            ['song' => 'Kiss from a Rose', 'artist' => 'Seal'],
+            ['song' => 'On Bended Knee', 'artist' => 'Boyz II Men'],
+            ['song' => 'Fantasy', 'artist' => 'Mariah Carey'],
         ];
 
         return $this->render('home/index.html.twig', [
-            'title' => $title,
-            'posts' => $posts
+            'title' => 'PB & Jams',
+            'tracks' => $tracks,
         ]);
     }
 
-    #[Route('/pesquisar/{slug}')]
+    #[Route('/pesquisar/{slug}', name: 'app_pesquisar')]
     public function pesquisar(string $slug = null): Response
     {
-        return new Response('Pesquisando por: '.$slug);
+        $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
+
+        return $this->render('home/pesquisar.html.twig', [
+            'genre' => $genre
+        ]);
     }
 }
