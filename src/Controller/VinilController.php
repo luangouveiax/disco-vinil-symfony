@@ -5,9 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\VinilRepository;
+
 use function Symfony\Component\String\u;
 
-class HomeController extends AbstractController
+class VinilController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
     public function index(): Response
@@ -28,12 +30,15 @@ class HomeController extends AbstractController
     }
 
     #[Route('/pesquisar/{slug}', name: 'app_pesquisar')]
-    public function pesquisar(string $slug = null): Response
+    public function pesquisar(VinilRepository $vinilRepository, string $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
+        $discos = $vinilRepository->findAll();
+
         return $this->render('home/pesquisar.html.twig', [
-            'genre' => $genre
+            'genre' => $genre,
+            'discos' => $discos
         ]);
     }
 }
