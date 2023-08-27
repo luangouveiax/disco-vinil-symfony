@@ -8,8 +8,8 @@
     <ul class="genre-list ps-0 mt-2 mb-3">
         <li class="d-inline">
             <a class="btn btn-primary btn-sm" href="{{ path('app_pesquisar', {
-                slug: 'funk'
-            }) }}">Funk</a>
+                slug: 'mpb'
+            }) }}">MPB</a>
         </li>
         <li class="d-inline">
             <a class="btn btn-primary btn-sm" href="{{ path('app_pesquisar', {
@@ -30,18 +30,18 @@
             <div class="col col-md-4">
                 <a 
                     href="{{ path('app_disco_show', {
-                        id: disco.id
+                        slug: disco.slug
                     }) }}"
                     style="color:#fff; text-decoration:none;"
                 >
                     <div class="mixed-vinyl-container p-3 text-center">
                         <img src="{{ disco.imageUrl(300) }}" alt="Capa Album">
                         <p class="mt-2"><strong>{{ disco.titulo }}</strong></p>
-                        <span>{{ disco.contaFaixas }} Tracks</span>
+                        <span>{{ disco.contaFaixas }} Faixas</span>
                         |
                         <span>{{ disco.genero }}</span>
                         |
-                        <span>{{ disco.criado|ago(locale='pt-BR') }}</span>
+                        <span>{{ disco.createdAt|ago(locale='pt-BR') }}</span>
                         <br>
                         {{ disco.votosString }} votos
                     </div>

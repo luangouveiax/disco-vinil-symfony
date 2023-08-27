@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\DiscoVinilRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: DiscoVinilRepository::class)]
 class DiscoVinil
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,14 +31,11 @@ class DiscoVinil
     private ?string $genero = null;
 
     #[ORM\Column]
-    private \DateTimeImmutable $criado;
-
-    #[ORM\Column]
     private int $votos = 0;
 
-    public function __construct() {
-        $this->criado = new \DateTimeImmutable();
-    }
+    #[ORM\Column(length: 100, unique: true)]
+    #[Slug(fields: ['titulo'])]
+    private ?string $slug = null;
 
     public function getId(): ?int
     {
@@ -89,18 +90,6 @@ class DiscoVinil
         return $this;
     }
 
-    public function getCriado(): ?\DateTimeImmutable
-    {
-        return $this->criado;
-    }
-
-    public function setCriado(\DateTimeImmutable $criado): self
-    {
-        $this->criado = $criado;
-
-        return $this;
-    }
-
     public function getVotos(): ?int
     {
         return $this->votos;
@@ -137,5 +126,17 @@ class DiscoVinil
             ($this->getId() + 50) % 1000, // number between 0 and 1000, based on the id
             $width
         );
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

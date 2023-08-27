@@ -16,9 +16,9 @@ class DiscoController extends AbstractController
     public function new(EntityManagerInterface $entityManager): Response
     {
         $disco = new DiscoVinil();
-        $disco->setTitulo('Felipe Boladão');
-        $disco->setDescricao('Playlist boladão');
-        $generos = ['funk', 'rock'];
+        $disco->setTitulo('Tim Maia e Legião Urbana');
+        $disco->setDescricao('Playlist anos 80');
+        $generos = ['mpb', 'rock'];
         $disco->setGenero($generos[array_rand($generos)]);
         $disco->setContaFaixas(rand(5, 20));
         $disco->setVotos(rand(-50, 50));
@@ -33,7 +33,7 @@ class DiscoController extends AbstractController
         ));
     }
 
-    #[Route('/disco/{id}', name: 'app_disco_show')]
+    #[Route('/disco/{slug}', name: 'app_disco_show')]
     public function show(DiscoVinil $disco): Response
     {
         return $this->render('disco/show.html.twig', [
@@ -56,7 +56,7 @@ class DiscoController extends AbstractController
         $this->addFlash('sucesso', 'Voto enviado!');
 
         return $this->redirectToRoute('app_disco_show', [
-            'id' => $disco->getId()
+            'slug' => $disco->getSlug()
         ]);
     }
 }
