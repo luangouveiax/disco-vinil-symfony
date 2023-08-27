@@ -25,30 +25,40 @@
 
     <div>
         <h2 class="mt-5">Discos</h2>
-        <div class="row">
-            {% for disco in discos %}
-            <div class="col col-md-4">
-                <a 
-                    href="{{ path('app_disco_show', {
-                        slug: disco.slug
-                    }) }}"
-                    style="color:#fff; text-decoration:none;"
-                >
-                    <div class="mixed-vinyl-container p-3 text-center">
-                        <img src="{{ disco.imageUrl(300) }}" alt="Capa Album">
-                        <p class="mt-2"><strong>{{ disco.titulo }}</strong></p>
-                        <span>{{ disco.contaFaixas }} Faixas</span>
-                        |
-                        <span>{{ disco.genero }}</span>
-                        |
-                        <span>{{ disco.createdAt|ago(locale='pt-BR') }}</span>
-                        <br>
-                        {{ disco.votosString }} votos
-                    </div>
-                </a>
+        <turbo-frame id="lista_disco_pesquisa_{{ pager.currentPage }}">
+            <div class="row">
+                {% for disco in pager %}
+                <div class="col col-md-4">
+                    <a 
+                        href="{{ path('app_disco_show', {
+                            slug: disco.slug
+                        }) }}"
+                        style="color:#fff; text-decoration:none;"
+                    >
+                        <div class="mixed-vinyl-container p-3 text-center">
+                            <img src="{{ disco.imageUrl(300) }}" alt="Capa Album">
+                            <p class="mt-2"><strong>{{ disco.titulo }}</strong></p>
+                            <span>{{ disco.contaFaixas }} Faixas</span>
+                            |
+                            <span>{{ disco.genero }}</span>
+                            |
+                            <span>{{ disco.createdAt|ago(locale='pt-BR') }}</span>
+                            <br>
+                            {{ disco.votosString }} votos
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+
+                {% if pager.hasNextPage %}
+                    <turbo-frame 
+                        id="lista_disco_pesquisa_{{ pager.nextPage }}" 
+                        src="{{ pagerfanta_page_url(pager, pager.nextPage) }}" 
+                        loading="lazy">
+                    </turbo-frame>
+                {% endif %}
             </div>
-            {% endfor %}
-        </div>
+        </turbo-frame>
     </div>
 </div>
 {% endblock %}

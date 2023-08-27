@@ -43,7 +43,7 @@ class DiscoVinilRepository extends ServiceEntityRepository
     /**
     * @return DiscoVinil[] Returns an array of DiscoVinil objects
     */
-    public function findAllOrderByVotos(string $genero = null): array
+    public function createOrderedByVotesQueryBuilder(string $genero = null): QueryBuilder
     {
        $queryBuilder = $this->addOrderByVotosQueryBuilder();
 
@@ -52,9 +52,7 @@ class DiscoVinilRepository extends ServiceEntityRepository
                 ->setParameter('genero', $genero);
         }
 
-        return $queryBuilder
-            ->getQuery()
-            ->getResult();
+        return $queryBuilder;
     }
 
     private function addOrderByVotosQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder

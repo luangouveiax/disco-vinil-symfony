@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\DiscoVinil;
-use App\Repository\DiscoVinilRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,22 +14,7 @@ class DiscoController extends AbstractController
     #[Route('/disco/novo')]
     public function new(EntityManagerInterface $entityManager): Response
     {
-        $disco = new DiscoVinil();
-        $disco->setTitulo('Tim Maia e Legião Urbana');
-        $disco->setDescricao('Playlist anos 80');
-        $generos = ['mpb', 'rock'];
-        $disco->setGenero($generos[array_rand($generos)]);
-        $disco->setContaFaixas(rand(5, 20));
-        $disco->setVotos(rand(-50, 50));
         
-        $entityManager->persist($disco);
-        $entityManager->flush();
-
-        return new Response(sprintf(
-            'Disco %d tem %d faixas',
-            $disco->getId(),
-            $disco->getContaFaixas()
-        ));
     }
 
     #[Route('/disco/{slug}', name: 'app_disco_show')]

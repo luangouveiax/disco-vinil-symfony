@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\DiscoVinilRepository;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,15 +33,21 @@ class VinilController extends AbstractController
     }
 
     #[Route('/pesquisar/{slug}', name: 'app_pesquisar')]
-    public function pesquisar(DiscoVinilRepository $discoRepository, string $slug = null): Response
+    public function pesquisar(DiscoVinilRepository $discoRepository, Request $request, string $slug = null): Response
     {
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
 
-        $discos = $discoRepository->findAllOrderByVotos($slug);
+        $queryBuilder = $discoRepository->createOrderedByVotesQueryBuilder($slug);
+        $adapter = new QueryAdapter($queryBuilder);
+        $pagerfanta = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            $adapter,
+            $request->query->get('page', 1),
+            9
+        );
 
         return $this->render('home/pesquisar.html.twig', [
             'genre' => $genre,
-            'discos' => $discos
+            'pager' => $pagerfanta
         ]);
     }
 }
