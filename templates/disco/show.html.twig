@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}{{ disco.titulo }} Disco{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="d-inline me-3">{{ disco.titulo }}</h1> <i class="fas fa-edit"></i>
+    <div class="row mt-5">
+        <div class="col-12 col-md-4">
+            {{ include('disco/_recordSvg.html.twig') }}
+        </div>
+        <div class="col-12 col-md-8 ps-5">
+            <h2 class="mb-4">{{ disco.contaFaixas }} faixas <small>(genero: {{ disco.genero }})</small></h2>
+            <p>{{ disco.descricao }}</p>
+
+            {{ disco.votos }} votos
+
+            <form action="{{ path('app_disco_voto', {id: disco.id}) }}" method="POST">
+                <button
+                    type="submit"
+                    class="btn btn-outline-primary"
+                    name="direction"
+                    value="up"
+                >
+                    <span class="fa fa-thumbs-up"></span>
+                </button>
+                <button
+                    type="submit"
+                    class="btn btn-outline-primary"
+                    name="direction"
+                    value="down"
+                >
+                    <span class="fa fa-thumbs-down"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
